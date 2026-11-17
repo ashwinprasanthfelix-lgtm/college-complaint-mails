@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments :: head('Admin Login')}"></head>
+<body>
+<div class="topbar"><strong>Campus Complaint Management System</strong></div>
+<div class="container">
+  <h2>Admin Login</h2>
+  <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+  <form method="post" th:action="@{/admin/login}">
+    <label>Username</label><input type="text" name="username" required>
+    <label>Password</label><input type="password" name="password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p class="muted"><a th:href="@{/login}">Student login</a></p>
+</div>
+</body></html>

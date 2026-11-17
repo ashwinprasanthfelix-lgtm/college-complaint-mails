@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"><title>Register | Campus Complaints</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div class="topbar"><strong>Campus Complaint Management System</strong></div>
+<div class="container">
+  <h2>Student Registration</h2>
+  <form method="post" th:action="@{/register}" th:object="${student}">
+    <label>Full Name</label>
+    <input type="text" th:field="*{fullName}">
+    <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+
+    <label>USN</label>
+    <input type="text" th:field="*{usn}">
+    <div class="error" th:if="${#fields.hasErrors('usn')}" th:errors="*{usn}"></div>
+
+    <label>Email</label>
+    <input type="email" th:field="*{email}">
+    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+    <label>Department</label>
+    <select th:field="*{department}">
+      <option value="">-- Select --</option>
+      <option th:each="d : ${departments}" th:value="${d}" th:text="${d}"></option>
+    </select>
+    <div class="error" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></div>
+
+    <label>Contact Number</label>
+    <input type="text" th:field="*{contactNo}">
+    <div class="error" th:if="${#fields.hasErrors('contactNo')}" th:errors="*{contactNo}"></div>
+
+    <label>Password</label>
+    <input type="password" th:field="*{password}">
+    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+    <button type="submit">Register</button>
+  </form>
+  <p class="muted">Already registered? <a th:href="@{/login}">Login</a></p>
+</div>
+</body></html>

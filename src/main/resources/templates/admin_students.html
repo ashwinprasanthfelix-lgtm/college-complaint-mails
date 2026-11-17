@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments :: head('Students')}"></head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<div class="container wide">
+  <h2>Registered Students</h2>
+  <div class="alert success" th:if="${success}" th:text="${success}"></div>
+  <p class="muted" th:if="${#lists.isEmpty(students)}">No students registered yet.</p>
+  <div class="table-wrap" th:unless="${#lists.isEmpty(students)}">
+    <table>
+      <thead><tr><th>Name</th><th>USN</th><th>Email</th><th>Department</th><th>Contact</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="s : ${students}">
+          <td th:text="${s.fullName}"></td>
+          <td th:text="${s.usn}"></td>
+          <td th:text="${s.email}"></td>
+          <td th:text="${s.department}"></td>
+          <td th:text="${s.contactNo}"></td>
+          <td>
+            <form class="inline" method="post" th:action="@{/admin/students/{id}/delete(id=${s.studentId})}"
+                  onsubmit="return confirm('Delete this student and all their complaints?');">
+              <button class="small danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body></html>

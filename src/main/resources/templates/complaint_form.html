@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments :: head('Complaint')}"></head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<div class="container">
+  <h2 th:text="${heading}">Complaint</h2>
+  <form method="post" th:action="@{${formAction}}" th:object="${complaint}">
+    <label>Category</label>
+    <select th:field="*{category}">
+      <option value="">-- Select category --</option>
+      <option th:each="c : ${categories}" th:value="${c}" th:text="${c}"></option>
+    </select>
+    <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+
+    <label>Description</label>
+    <textarea rows="6" th:field="*{description}" placeholder="Describe the problem (location, what is wrong, since when)..."></textarea>
+    <div class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+    <button type="submit">Save</button>
+    <a class="btn secondary" th:href="@{/student/dashboard}">Cancel</a>
+  </form>
+</div>
+</body></html>

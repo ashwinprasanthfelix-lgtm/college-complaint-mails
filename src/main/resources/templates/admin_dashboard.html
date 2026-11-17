@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments :: head('Admin Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<div class="container wide xl">
+  <h2>All Complaints</h2>
+  <div class="alert success" th:if="${success}" th:text="${success}"></div>
+  <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+  <div class="alert danger" th:if="${idError}" th:text="${idError}"></div>
+
+  <div class="stats">
+    <div class="stat"><span th:text="${counts['Pending'] + counts['In Progress'] + counts['Resolved']}">0</span>Total</div>
+    <div class="stat"><span th:text="${counts['Pending']}">0</span>Pending</div>
+    <div class="stat"><span th:text="${counts['In Progress']}">0</span>In Progress</div>
+    <div class="stat"><span th:text="${counts['Resolved']}">0</span>Resolved</div>
+  </div>
+
+  <form class="filters" method="get" th:action="@{/admin/dashboard}">
+    <div><label>Complaint ID</label><input type="text" name="id" th:value="${fId}" placeholder="e.g. 5"></div>
+    <div><label>Category</label>
+      <select name="category">
+        <option value="">All</option>
+        <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}" th:selected="${cat == fCategory}"></option>
+      </select></div>
+    <div><label>Status</label>
+      <select name="status">
+        <option value="">All</option>
+        <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}" th:selected="${st == fStatus}"></option>
+      </select></div>
+    <div class="filter-btns">
+      <button type="submit">Search</button>
+      <a class="btn secondary" th:href="@{/admin/dashboard}">Reset</a>
+    </div>
+  </form>
+
+  <p class="muted" th:if="${#lists.isEmpty(complaints)}">No complaints found.</p>
+  <div class="table-wrap" th:unless="${#lists.isEmpty(complaints)}">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Student</th><th>Category</th><th>Description</th><th>Submitted</th><th>Status</th><th>Priority</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${complaints}">
+          <td th:text="${c.complaintId}"></td>
+          <td><div th:text="${c.studentName}"></div><div class="muted" th:text="${c.usn}"></div></td>
+          <td th:text="${c.category}"></td>
+          <td th:text="${c.description}" class="desc"></td>
+          <td th:text="${#temporals.format(c.createdAt, 'dd MMM yyyy, HH:mm')}"></td>
+          <td colspan="3">
+            <form class="update-form" method="post" th:action="@{/admin/complaints/{id}/update(id=${c.complaintId})}">
+              <select name="status">
+                <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}" th:selected="${st == c.status}"></option>
+              </select>
+              <select name="priority">
+                <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}" th:selected="${p == c.priority}"></option>
+              </select>
+              <input type="hidden" name="fId" th:value="${fId}">
+              <input type="hidden" name="fCategory" th:value="${fCategory}">
+              <input type="hidden" name="fStatus" th:value="${fStatus}">
+              <button class="small" type="submit">Save</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body></html>

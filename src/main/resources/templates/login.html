@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"><title>Login | Campus Complaints</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div class="topbar"><strong>Campus Complaint Management System</strong></div>
+<div class="container">
+  <h2>Student Login</h2>
+  <div class="alert success" th:if="${success}" th:text="${success}"></div>
+  <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+  <form method="post" th:action="@{/login}">
+    <label>USN</label><input type="text" name="usn" required>
+    <label>Password</label><input type="password" name="password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p class="muted">New student? <a th:href="@{/register}">Register here</a> &nbsp;|&nbsp; <a th:href="@{/admin/login}">Admin login</a></p>
+</div>
+</body></html>
